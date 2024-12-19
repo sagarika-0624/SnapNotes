@@ -1,6 +1,6 @@
 // Login.jsx
 import React, { useState } from 'react';
-import './login.css'; // Import the CSS for login form
+import './Login.css'; // Import the CSS for login form
 
 const Login = () => {
   const [formData, setFormData] = useState({
