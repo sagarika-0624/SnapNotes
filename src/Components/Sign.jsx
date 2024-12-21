@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import './Sign.css'; // Import the CSS for sign-up form
 
 const Sign = () => {
-    
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -21,10 +20,14 @@ const Sign = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here, you can handle the form submission (e.g., send data to server)
+    // Store user data in local storage
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    users.push(formData);
+    localStorage.setItem('users', JSON.stringify(users));
     console.log('Form data:', formData);
 
-    navigate('/login');
+    // Redirect to login page
+    window.location.href = '/login';
   };
 
   return (
@@ -34,49 +37,48 @@ const Sign = () => {
         <source src="\src\Videos\SnapNotes.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-    <div className="sign-container">
-      <h2>Create an Account</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Sign Up</button>
-      </form>
-      <p>
+      <div className="sign-container">
+        <h2>Create an Account</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+        <p>
           Already have an account?{' '}
           <a href="/login" className="login-link">Login</a>
         </p>
-      
-    </div>
+      </div>
     </div>
   );
 };

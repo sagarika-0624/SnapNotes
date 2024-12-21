@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Notes.css';
 
 const NotesPage = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(() => {
+    const savedNotes = localStorage.getItem('notes');
+    return savedNotes ? JSON.parse(savedNotes) : [];
+  });
   const [noteTitle, setNoteTitle] = useState('');
   const [noteText, setNoteText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,12 +28,13 @@ const NotesPage = () => {
         setNotes(updatedNotes);
         setEditingIndex(null);
       } else {
-        setNotes([...notes, newNote]);
+        const updatedNotes = [...notes, newNote];
+        setNotes(updatedNotes);
+        setFilteredNotes(updatedNotes);
       }
 
       setNoteTitle(''); // Clear the title input
       setNoteText('');  // Clear the text input
-      setFilteredNotes([...notes, newNote]);
     }
   };
 
@@ -63,6 +67,11 @@ const NotesPage = () => {
       setFilteredNotes(notes);
     }
   }, [notes, searchQuery]);
+
+  // Save notes to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
 
   // Handle expanding a note to full screen
   const expandNote = (note) => {
